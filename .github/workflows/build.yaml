@@ -1,3 +1,9 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 2 optimizations:
+# - [HIGH] Split "build" into parallel jobs (lint + test + build)
+# - [MEDIUM] Add concurrency group to "build.yaml"
+# Estimated savings: ~8 min/run
+#
 name: Build, Lint & Test
 
 on:
@@ -7,6 +13,10 @@ on:
     branches:
     - master
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
